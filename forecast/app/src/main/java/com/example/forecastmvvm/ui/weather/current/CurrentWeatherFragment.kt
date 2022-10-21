@@ -7,6 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.forecastmvvm.R
+import com.example.forecastmvvm.data.OpenWeatherMapApiService
+import com.example.forecastmvvm.databinding.FragmentCurrentWeatherBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CurrentWeatherFragment : Fragment() {
 
@@ -14,19 +20,27 @@ class CurrentWeatherFragment : Fragment() {
         fun newInstance() = CurrentWeatherFragment()
     }
 
+    private lateinit var binding: FragmentCurrentWeatherBinding
     private lateinit var viewModel: CurrentWeatherViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_current_weather, container, false)
+        binding = FragmentCurrentWeatherBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
         // TODO: Use the ViewModel
+        val apiService = OpenWeatherMapApiService()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val currentWeatherResponse = apiService.getCurrentWeather("London")
+            binding.textView.text = currentWeatherResponse.toString()
+        }
     }
 
 }
