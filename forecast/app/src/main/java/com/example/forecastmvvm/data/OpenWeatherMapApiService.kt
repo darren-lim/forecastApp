@@ -1,12 +1,10 @@
 package com.example.forecastmvvm.data
 
-import com.example.forecastmvvm.data.currentweather.response.CurrentWeatherResponse
-import kotlinx.coroutines.Deferred
+import com.example.forecastmvvm.data.network.currentweather.response.CurrentWeatherResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Query
 
